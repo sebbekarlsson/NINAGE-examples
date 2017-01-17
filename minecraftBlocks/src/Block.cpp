@@ -4,14 +4,9 @@
 
 Block::Block(float x, float y): Entity(x, y) {
     this->sprite->addImage(game->loadImage("assets/wuud.png"));
-    //this->centeredOrigo = true;
-    //this->friction = 0.001f;
 }
 
 void Block::tick(float delta) {
-    //this->updatePhysics(delta);
-    
-
     if (
             game->getMousePosition().x >= this->x &&
             game->getMousePosition().x <= this->x + this->collisionBox->width &&

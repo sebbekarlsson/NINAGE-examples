@@ -1,5 +1,5 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef FIREBALL_H
+#define FIREBALL_H
 
 #include <iostream>
 #include <ninage/engine/SDLOpenGL.h>
@@ -9,9 +9,9 @@
 class SDLOpenGL;
 extern SDLOpenGL *game;
 
-class Player: public Entity {
+class Fireball: public Entity {
     public:
-        Player(float x, float y);
+        Fireball(float x, float y);
 
         Sprite * standingSprite;
         Sprite * walkingSprite;

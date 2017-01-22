@@ -14,7 +14,8 @@ OFILES=\
        main.o\
        MainScene.o\
        Block.o\
-       Player.o
+       Player.o\
+       Fireball.o
 
 
 output: $(OFILES)
@@ -31,6 +32,9 @@ Block.o: src/Block.cpp src/Block.h
 
 Player.o: src/Player.cpp src/Player.h
 	g++ $(G_FLAGZ) -c src/Player.cpp
+
+Fireball.o: src/Fireball.cpp src/Fireball.h
+	g++ $(G_FLAGZ) -c src/Fireball.cpp
 
 clean:
 	-rm *.out

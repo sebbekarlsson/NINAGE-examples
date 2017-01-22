@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Block.h"
 #include <random>
+#include <algorithm>
 
 
 Player::Player(float x, float y): Entity(x, y) {
@@ -14,18 +15,12 @@ void Player::tick(float delta) {
     this->onGround = false;
     
     this->updatePhysics(delta);
-
-    /*if (!this->onGround) {
-      this->dy += 0.1f;
-      } else {
-    //this->dy -= 0.1f;
-    }*/
-
-    Scene * scene = game->getCurrentScene();
+    
+    Scene& scene = *game->getCurrentScene();
 
     float py = 0.0f;
 
-    for (std::vector<Instance*>::iterator it2 = scene->instances->begin(); it2 != scene->instances->end();) {
+    for (std::vector<Instance*>::iterator it2 = scene.instances->begin(); it2 != scene.instances->end();) {
         if(dynamic_cast<Block*>((*it2)) == NULL) { ++it2; continue; }
         //if ((*it) == (*it2) || (*it)->interactive == false) { ++it2; continue; }
 
@@ -57,9 +52,36 @@ void Player::tick(float delta) {
         this->addForce(270.0f, 2.0f);
     }
 
-    scene->camera->x = (this->x - game->WIDTH);
+    float camX = this->x - game->getWidth() / 2;
+    float camY = this->y - game->getHeight() / 2;
 
-    //delete scene;
+    float distance =\
+        std::max(
+            (scene.camera->x + game->getWidth() / 2),
+            (this->x + this->collisionBox->width / 2)
+            ) -
+        std::min(
+            (scene.camera->x + game->getWidth() / 2),
+            (this->x + this->collisionBox->width / 2)
+        );
+
+    if (distance > 250.0f) {
+        if (scene.camera->x < camX) {
+            if (scene.camera->x + (0.2f * delta) > camX) {
+                scene.camera->dx = 0.0f;
+            } else {
+                scene.camera->dx += 0.2f;
+            }
+        }
+
+        if (scene.camera->x > camX) {
+            if (scene.camera->x - (0.2f * delta) < camX) {
+                scene.camera->dx = 0.0f;
+            } else {
+                scene.camera->dx -= 0.2f;
+            }
+        }
+    }
 }
 
 void Player::draw(float delta) {

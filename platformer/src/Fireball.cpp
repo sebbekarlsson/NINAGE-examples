@@ -1,7 +1,6 @@
 #include "Fireball.h"
 #include "Block.h"
 #include <random>
-#include <algorithm>
 
 
 Fireball::Fireball(float x, float y): Entity(x, y) {

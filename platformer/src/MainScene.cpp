@@ -15,7 +15,7 @@ void MainScene::init(float delta) {
         this->instantiate(new Block(x * 70, game->getHeight() + (70*2)));
     }
 
-    this->instantiate(new Player(70, game->getHeight() - 120.0f));
+    this->instantiate(new Player(70, game->getHeight() - (70 * 3)));
 }
 
 void MainScene::tick(float delta) {

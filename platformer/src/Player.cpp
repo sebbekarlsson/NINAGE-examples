@@ -59,7 +59,6 @@ void Player::tick(float delta) {
         this->y = py;
     }
     
-
     if (game->keyboardDown(SDL_SCANCODE_LEFT)) {
         this->addForce(180.0f, 0.05f);
     }
@@ -108,6 +107,8 @@ void Player::tick(float delta) {
             }
         }
     }
+
+    scene.camera->y = camY;
 
     if (dx > 0 || dx < 0) {
         this->sprite = this->walkingSprite;

@@ -8,14 +8,14 @@ MainScene::MainScene(): Scene() {}
 
 void MainScene::init(float delta) {
     for (int x = 0; x < 10; x++) {
-        this->instantiate(new Block(x * 70, game->HEIGHT));
+        this->instantiate(new Block(x * 70, game->getHeight() - 70.0f));
     }
 
     for (int x = 11; x < (11+10); x++) {
-        this->instantiate(new Block(x * 70, game->HEIGHT + (70*2)));
+        this->instantiate(new Block(x * 70, game->getHeight() + (70*2)));
     }
 
-    this->instantiate(new Player(70, game->HEIGHT - 120.0f));
+    this->instantiate(new Player(70, game->getHeight() - 120.0f));
 }
 
 void MainScene::tick(float delta) {

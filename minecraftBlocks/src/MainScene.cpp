@@ -6,8 +6,8 @@
 MainScene::MainScene(): Scene() {}
 
 void MainScene::init(float delta) {
-    int xStart = (game->WIDTH / 2) / 16;
-    int yStart = (game->HEIGHT / 2) / 32;
+    int xStart = (game->getWidth() / 2) / 32;
+    int yStart = (game->getHeight() / 2) / 32;
 
     for (int x = xStart; x < xStart + 32; x++) {
         for (int y = yStart; y < yStart + 32; y++) {

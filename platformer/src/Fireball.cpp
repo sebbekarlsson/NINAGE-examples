@@ -29,7 +29,7 @@ void Fireball::tick(float delta) {
         
         if (/*this->y+this->collisionBox->height >= (*it2)->y &&*/ this->intersectsWith(delta, (Entity*)(*it2))) {
             this->onGround = true;
-            py = (*it2)->y - this->collisionBox->height; 
+            py = (*it2)->getY() - this->collisionBox->height; 
         }
 
         ++it2;
@@ -39,7 +39,7 @@ void Fireball::tick(float delta) {
         this->dy += 0.1f;
     } else {
         this->dy = 0.0f;
-        this->y = py;
+        this->position->y = py;
     }
 }
 

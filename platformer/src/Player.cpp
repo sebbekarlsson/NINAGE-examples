@@ -46,7 +46,7 @@ void Player::tick(float delta) {
         
         if (/*this->y+this->collisionBox->height >= (*it2)->y &&*/ this->intersectsWith(delta, (Entity*)(*it2))) {
             this->onGround = true;
-            py = (*it2)->y - this->collisionBox->height; 
+            py = (*it2)->getY() - this->collisionBox->height; 
         }
 
         ++it2;
@@ -56,7 +56,7 @@ void Player::tick(float delta) {
         this->dy += 0.1f;
     } else {
         this->dy = 0.0f;
-        this->y = py;
+        this->position->y = py;
     }
     
     if (game->keyboardDown(SDL_SCANCODE_LEFT)) {
@@ -69,7 +69,7 @@ void Player::tick(float delta) {
         this->addForce(270.0f, 2.0f);
     }
     if (game->keyboardDown(SDL_SCANCODE_SPACE)) {
-        Fireball* ball = new Fireball(this->x, this->y);
+        Fireball* ball = new Fireball(this->getX(), this->getY());
 
         ball->addForce(270.0f, 1.0f);
         game->getCurrentScene()->instantiate(ball);
@@ -77,30 +77,30 @@ void Player::tick(float delta) {
         //this->addForce(270.0f, 2.0f);
     }
 
-    float camX = this->x - game->getWidth() / 2;
-    float camY = this->y - game->getHeight() / 2;
+    float camX = this->getX() - game->getWidth() / 2;
+    float camY = this->getY() - game->getHeight() / 2;
 
     float distance =\
         std::max(
-            (scene.camera->x + game->getWidth() / 2),
-            (this->x + this->collisionBox->width / 2)
+            (scene.camera->getX() + game->getWidth() / 2),
+            (this->getX() + this->collisionBox->width / 2)
             ) -
         std::min(
-            (scene.camera->x + game->getWidth() / 2),
-            (this->x + this->collisionBox->width / 2)
+            (scene.camera->getX() + game->getWidth() / 2),
+            (this->getX() + this->collisionBox->width / 2)
         );
 
     if (distance > 250.0f) {
-        if (scene.camera->x < camX) {
-            if (scene.camera->x + (0.2f * delta) > camX) {
+        if (scene.camera->getX() < camX) {
+            if (scene.camera->getX() + (0.2f * delta) > camX) {
                 scene.camera->dx = 0.0f;
             } else {
                 scene.camera->dx += 0.2f;
             }
         }
 
-        if (scene.camera->x > camX) {
-            if (scene.camera->x - (0.2f * delta) < camX) {
+        if (scene.camera->getX() > camX) {
+            if (scene.camera->getX() - (0.2f * delta) < camX) {
                 scene.camera->dx = 0.0f;
             } else {
                 scene.camera->dx -= 0.2f;
@@ -108,7 +108,7 @@ void Player::tick(float delta) {
         }
     }
 
-    scene.camera->y = camY;
+    scene.camera->position->y = camY;
 
     if (dx > 0 || dx < 0) {
         this->sprite = this->walkingSprite;

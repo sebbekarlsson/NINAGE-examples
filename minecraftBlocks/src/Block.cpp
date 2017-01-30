@@ -8,10 +8,10 @@ Block::Block(float x, float y): Entity(x, y) {
 
 void Block::tick(float delta) {
     if (
-            game->getMousePosition().x >= this->x &&
-            game->getMousePosition().x <= this->x + this->collisionBox->width &&
-            game->getMousePosition().y >= this->y &&
-            game->getMousePosition().y <= this->y + this->collisionBox->height
+            game->getMousePosition().x >= this->getX() &&
+            game->getMousePosition().x <= this->getX() + this->collisionBox->width &&
+            game->getMousePosition().y >= this->getY() &&
+            game->getMousePosition().y <= this->getY() + this->collisionBox->height
     ) {
         game->getCurrentScene()->destantiate(this);
     }

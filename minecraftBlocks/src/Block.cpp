@@ -21,7 +21,3 @@ void Block::draw(float delta) {
     this->sprite->draw(delta);
     //this->collisionBox->draw(delta);
 }
-
-void Block::scene(float delta, Instance * instance) {
-
-}

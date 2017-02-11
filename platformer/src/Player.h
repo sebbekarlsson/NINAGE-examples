@@ -2,12 +2,9 @@
 #define PLAYER_H
 
 #include <iostream>
-#include <ninage/engine/SDLOpenGL.h>
+#include <ninage/engine/Ninage.h>
 #include <ninage/engine/Entity.h>
 
-
-class SDLOpenGL;
-extern SDLOpenGL *game;
 
 class Player: public Entity {
     public:

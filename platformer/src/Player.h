@@ -17,7 +17,6 @@ class Player: public Entity {
 
         void tick(float delta);
         void draw(float delta);
-        void scene(float delta, Instance *instance);
 };
 
 #endif

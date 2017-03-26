@@ -47,9 +47,3 @@ void Fireball::draw(float delta) {
     this->sprite->draw(delta);
     //this->collisionBox->draw(delta);
 }
-
-void Fireball::scene(float delta, Instance * instance) {
-    if (this->intersectsWith(delta, (Entity*) instance)) {
-        this->onGround = true;
-    }
-}

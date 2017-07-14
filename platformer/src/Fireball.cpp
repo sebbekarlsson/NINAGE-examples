@@ -4,7 +4,7 @@
 
 
 Fireball::Fireball(float x, float y): Entity(x, y) {
-    this->sprite->addImage(game->loadImage("assets/fireball.png"));
+    this->sprite->addImage(app->loadImage("assets/fireball.png"));
 
     this->centeredOrigo = false;
     this->interactive = true;
@@ -17,7 +17,7 @@ void Fireball::tick(float delta) {
     
     this->updatePhysics(delta);
     
-    Scene& scene = *game->getCurrentScene();
+    Scene& scene = *app->getCurrentScene();
 
     float py = 0.0f;
 

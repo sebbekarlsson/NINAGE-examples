@@ -16,10 +16,10 @@ Player::Player(float x, float y): Entity(x, y) {
         
         if (i < 10) { number = "0" + number; }
 
-        this->walkingSprite->addImage(game->loadImage(("assets/player/p2_walk" + number + ".png")));
+        this->walkingSprite->addImage(app->loadImage(("assets/player/p2_walk" + number + ".png")));
     }
 
-    this->standingSprite->addImage(game->loadImage("assets/p2_stand.png"));
+    this->standingSprite->addImage(app->loadImage("assets/p2_stand.png"));
 
     this->sprite = this->standingSprite;
 
@@ -34,7 +34,7 @@ void Player::tick(float delta) {
     
     this->updatePhysics(delta);
     
-    Scene& scene = *game->getCurrentScene();
+    Scene& scene = *app->getCurrentScene();
 
     float py = 0.0f;
 
@@ -59,34 +59,34 @@ void Player::tick(float delta) {
         this->position->y = py;
     }
     
-    if (game->keyboardDown(SDL_SCANCODE_LEFT)) {
+    if (app->keyboardDown(SDL_SCANCODE_LEFT)) {
         this->addForce(180.0f, 0.05f);
     }
-    if (game->keyboardDown(SDL_SCANCODE_RIGHT)) {
+    if (app->keyboardDown(SDL_SCANCODE_RIGHT)) {
         this->addForce(0.0f, 0.05f);
     }
-    if (game->keyboardDown(SDL_SCANCODE_UP) && this->onGround) {
+    if (app->keyboardDown(SDL_SCANCODE_UP) && this->onGround) {
         this->addForce(270.0f, 2.0f);
     }
-    if (game->keyboardDown(SDL_SCANCODE_SPACE)) {
+    if (app->keyboardDown(SDL_SCANCODE_SPACE)) {
         Fireball* ball = new Fireball(this->getX(), this->getY());
 
         ball->addForce(270.0f, 1.0f);
-        game->getCurrentScene()->instantiate(ball);
+        app->getCurrentScene()->instantiate(ball);
 
         //this->addForce(270.0f, 2.0f);
     }
 
-    float camX = this->getX() - game->getWidth() / 2;
-    float camY = this->getY() - game->getHeight() / 2;
+    float camX = this->getX() - app->getWidth() / 2;
+    float camY = this->getY() - app->getHeight() / 2;
 
     float distance =\
         std::max(
-            (scene.camera->getX() + game->getWidth() / 2),
+            (scene.camera->getX() + app->getWidth() / 2),
             (this->getX() + this->collisionBox->width / 2)
             ) -
         std::min(
-            (scene.camera->getX() + game->getWidth() / 2),
+            (scene.camera->getX() + app->getWidth() / 2),
             (this->getX() + this->collisionBox->width / 2)
         );
 

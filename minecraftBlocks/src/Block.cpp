@@ -3,17 +3,17 @@
 
 
 Block::Block(float x, float y): Entity(x, y) {
-    this->sprite->addImage(game->loadImage("assets/wuud.png"));
+    this->sprite->addImage(app->loadImage("assets/wuud.png"));
 }
 
 void Block::tick(float delta) {
     if (
-            game->getMousePosition().x >= this->getX() &&
-            game->getMousePosition().x <= this->getX() + this->collisionBox->width &&
-            game->getMousePosition().y >= this->getY() &&
-            game->getMousePosition().y <= this->getY() + this->collisionBox->height
+            app->getMousePosition().x >= this->getX() &&
+            app->getMousePosition().x <= this->getX() + this->collisionBox->width &&
+            app->getMousePosition().y >= this->getY() &&
+            app->getMousePosition().y <= this->getY() + this->collisionBox->height
     ) {
-        game->getCurrentScene()->destantiate(this);
+        app->getCurrentScene()->destantiate(this);
     }
 }
 

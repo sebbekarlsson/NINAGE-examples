@@ -1,9 +1,9 @@
 # Scenengine-examples
-> Example games created with Scenengine
+> Example apps created with Scenengine
 
 ## Compiling & running:
 
         cd $GAME_DIR
         make
-        ./game.out
+        ./app.out
 

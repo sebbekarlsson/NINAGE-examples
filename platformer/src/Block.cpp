@@ -3,7 +3,7 @@
 
 
 Block::Block(float x, float y): Entity(x, y) {
-    this->sprite->addImage(game->loadImage("assets/grass.png"));
+    this->sprite->addImage(app->loadImage("assets/grass.png"));
     this->centeredOrigo = false;
     this->interactive = true;
 }

@@ -6,6 +6,8 @@
 #include <ninage/Entity.h>
 
 
+extern Ninage *app;
+
 class Block: public Entity {
     public:
         Block(float x, float y);

@@ -5,7 +5,7 @@
 #include <algorithm>
 
 
-Player::Player(float x, float y): Entity(x, y) {
+Player::Player(float x, float y, float z): Entity(x, y, z) {
     this->walkingSprite = new Sprite();
     this->standingSprite = new Sprite();
 
@@ -69,7 +69,7 @@ void Player::tick(float delta) {
         this->addForce(270.0f, 2.0f);
     }
     if (app->keyboardDown(SDL_SCANCODE_SPACE)) {
-        Fireball* ball = new Fireball(this->getX(), this->getY());
+        Fireball* ball = new Fireball(this->getX(), this->getY(), 0);
 
         ball->addForce(270.0f, 1.0f);
         app->getCurrentScene()->instantiate(ball);

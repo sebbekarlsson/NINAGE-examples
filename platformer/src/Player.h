@@ -8,7 +8,7 @@
 
 class Player: public Entity {
     public:
-        Player(float x, float y);
+        Player(float x, float y, float z);
 
         Sprite * standingSprite;
         Sprite * walkingSprite;

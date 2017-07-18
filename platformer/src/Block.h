@@ -10,7 +10,7 @@ extern Ninage *app;
 
 class Block: public Entity {
     public:
-        Block(float x, float y);
+        Block(float x, float y, float z);
 
         void tick(float delta);
         void draw(float delta);

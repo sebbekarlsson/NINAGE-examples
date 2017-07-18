@@ -11,7 +11,7 @@ extern Ninage *app;
 
 class Fireball: public Entity {
     public:
-        Fireball(float x, float y);
+        Fireball(float x, float y, float z);
 
         Sprite * standingSprite;
         Sprite * walkingSprite;

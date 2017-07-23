@@ -13,6 +13,8 @@ void Ninage::main() {
 
 int main(int argc, char* args[]) {
     app = new Ninage();
+    
+    app->setViewMode(1);
 
     return app->run();
 }

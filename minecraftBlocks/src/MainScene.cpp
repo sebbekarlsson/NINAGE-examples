@@ -11,7 +11,7 @@ void MainScene::init(float delta) {
 
     for (int x = xStart; x < xStart + 32; x++) {
         for (int y = yStart; y < yStart + 32; y++) {
-            this->instantiate(new Block(x * 16, y * 16));
+            this->instantiate(new Block(x * 16, y * 16, 0.0f));
         }
     }
 }

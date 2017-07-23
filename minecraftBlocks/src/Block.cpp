@@ -2,7 +2,7 @@
 #include <random>
 
 
-Block::Block(float x, float y): Entity(x, y) {
+Block::Block(float x, float y, float z): Entity(x, y, z) {
     this->sprite->addImage(app->loadImage("assets/wuud.png"));
 }
 

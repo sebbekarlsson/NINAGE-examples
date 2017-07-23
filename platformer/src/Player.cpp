@@ -44,7 +44,7 @@ void Player::tick(float delta) {
 
         //(*it2)->scene(delta, (*it));
         
-        if (/*this->y+this->collisionBox->height >= (*it2)->y &&*/ this->intersectsWith(delta, (Entity*)(*it2))) {
+        if (this->intersectsWith(delta, (Entity*)(*it2))) {
             this->onGround = true;
             py = (*it2)->getY() - this->collisionBox->height; 
         }

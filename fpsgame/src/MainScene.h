@@ -1,10 +1,11 @@
 #ifndef TESTSCENE_H
 #define TESTSCENE_H
 
+#include <ninage/Ninage.h>
 #include <ninage/Scene.h>
+#include <ninage/SpriteImage.h>
 
 
-class Ninage;
 extern Ninage *app;
 
 class MainScene: public Scene {
@@ -14,6 +15,8 @@ class MainScene: public Scene {
         void tick(float delta);
         void draw(float delta);
         void init(float delta);
+
+        SpriteImage* texture0;
 };
 
 #endif

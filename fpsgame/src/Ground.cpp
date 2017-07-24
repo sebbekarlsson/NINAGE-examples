@@ -3,7 +3,7 @@
 
 
 Ground::Ground(float x, float y, float z): Entity(x, y, z) {
-    this->sprite->addImage(app->loadImage("assets/unnamed.png"));
+    this->sprite->addImage(app->loadImage("assets/crate.png"));
 }
 
 void Ground::tick(float delta) {

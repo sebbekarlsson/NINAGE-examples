@@ -12,9 +12,9 @@ MainScene::MainScene(): Scene() {
 }
 
 void MainScene::init(float delta) {
-    for (int xx = 0; xx < 64; xx++) {
-        for (int yy = -20; yy < 64; yy++) {
-            Ground* ground = new Ground(xx, -2.2f, yy);
+    for (int xx = 0; xx < 16; xx++) {
+        for (int yy = -20; yy < 16; yy++) {
+            Ground* ground = new Ground(xx * 2, -2.2f, yy * 2);
             this->instantiate(ground);
         }
     }

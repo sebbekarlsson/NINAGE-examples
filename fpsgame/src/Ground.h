@@ -1,17 +1,20 @@
 #ifndef GROUND_H
 #define GROUND_H
 
+#include <iostream>
+#include <ninage/Ninage.h>
+#include <ninage/Entity.h>
 
-#include <ninage/Instance.h>
 
+extern Ninage *app;
 
-class Ground {
+class Ground: public Entity {
     public:
         Ground(float x, float y, float z);
 
         void tick(float delta);
-
         void draw(float delta);
 };
 
 #endif
+

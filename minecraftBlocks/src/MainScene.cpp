@@ -23,3 +23,11 @@ void MainScene::tick(float delta) {
 void MainScene::draw(float delta) {
     this->drawDefault(delta);
 }
+
+void MainScene::mouseMoveEvent(
+    int &mouseX,
+    int &mouseY,
+    int &deltaMouseX,
+    int &deltaMouseY
+) {
+}

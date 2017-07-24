@@ -25,6 +25,9 @@ void MainScene::init(float delta) {
             this->instantiate(ground);
         }
     }
+
+    Ground* ground = new Ground(4.0f, (-2.2f) + 2, 4.0f);
+    this->instantiate(ground);
 }
 
 void MainScene::tick(float delta) {
@@ -70,14 +73,14 @@ void MainScene::tick(float delta) {
     }
 
     if (!onGround) {
-        camera->dy -= 0.002f;
+        camera->dy -= 0.0007f;
     } else {
         camera->dy = 0.0f;
         camera->position->y = py;
     }
 
     if (app->keyboardDown(SDL_SCANCODE_SPACE) && onGround) {
-        camera->addForce(90.0f, 0.03f);
+        camera->addForce(90.0f, 0.01f);
     }
 }
 

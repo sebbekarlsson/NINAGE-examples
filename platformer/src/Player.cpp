@@ -31,7 +31,7 @@ Player::Player(float x, float y, float z): Entity(x, y, z) {
 
 void Player::tick(float delta) {
     this->onGround = false;
-    
+    this->syncCollisionBoxWithSprite(delta);
     this->updatePhysics(delta);
     
     Scene& scene = *app->getCurrentScene();

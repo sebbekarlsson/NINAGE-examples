@@ -4,6 +4,7 @@
 
 Ground::Ground(float x, float y, float z): Entity(x, y, z) {
     this->sprite->addImage(app->loadImage("assets/crate.png"));
+    this->collisionBox->setSize(1.0f, 1.0f, 1.0f);
 }
 
 void Ground::tick(float delta) {

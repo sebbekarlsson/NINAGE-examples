@@ -4,7 +4,7 @@
 
 Ground::Ground(float x, float y, float z): Entity(x, y, z) {
     this->illustrationStack->addIllustration(
-        app->loadImage("assets/crate.png")
+        app->loadIllustration("assets/crate.png")
     );
 
     this->collisionBox->setSize(1.0f, 1.0f, 1.0f);

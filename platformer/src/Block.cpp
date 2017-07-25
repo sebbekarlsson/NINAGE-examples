@@ -3,7 +3,9 @@
 
 
 Block::Block(float x, float y, float z): Entity(x, y, z) {
-    this->illustrationStack->addIllustration(app->loadImage("assets/grass.png"));
+    this->illustrationStack->addIllustration(
+        app->loadIllustration("assets/grass.png")
+    );
     this->centeredOrigo = false;
     this->interactive = true;
 }

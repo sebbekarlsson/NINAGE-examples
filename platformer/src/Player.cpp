@@ -16,10 +16,14 @@ Player::Player(float x, float y, float z): Entity(x, y, z) {
         
         if (i < 10) { number = "0" + number; }
 
-        this->walkingIll->addIllustration(app->loadImage(("assets/player/p2_walk" + number + ".png")));
+        this->walkingIll->addIllustration(
+            app->loadIllustration(("assets/player/p2_walk" + number + ".png"))
+        );
     }
 
-    this->standingIll->addIllustration(app->loadImage("assets/p2_stand.png"));
+    this->standingIll->addIllustration(
+        app->loadIllustration("assets/p2_stand.png")
+    );
 
     this->illustrationStack = this->standingIll;
 

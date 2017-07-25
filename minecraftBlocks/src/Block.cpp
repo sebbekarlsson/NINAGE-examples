@@ -3,7 +3,9 @@
 
 
 Block::Block(float x, float y, float z): Entity(x, y, z) {
-    this->illustrationStack->addIllustration(app->loadImage("assets/wuud.png"));
+    this->illustrationStack->addIllustration(
+        app->loadIllustration("assets/wuud.png")
+    );
 }
 
 void Block::tick(float delta) {

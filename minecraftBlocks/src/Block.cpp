@@ -3,7 +3,7 @@
 
 
 Block::Block(float x, float y, float z): Entity(x, y, z) {
-    this->sprite->addImage(app->loadImage("assets/wuud.png"));
+    this->illustrationStack->addIllustration(app->loadImage("assets/wuud.png"));
 }
 
 void Block::tick(float delta) {
@@ -18,6 +18,6 @@ void Block::tick(float delta) {
 }
 
 void Block::draw(float delta) {
-    this->sprite->draw(delta);
+    this->illustrationStack->draw(delta);
     //this->collisionBox->draw(delta);
 }

@@ -6,8 +6,8 @@
 
 
 Player::Player(float x, float y, float z): Entity(x, y, z) {
-    this->walkingSprite = new Sprite();
-    this->standingSprite = new Sprite();
+    this->walkingIll = new IllustrationStack();
+    this->standingIll = new IllustrationStack();
 
     int walkFrames = 11;
 
@@ -16,22 +16,22 @@ Player::Player(float x, float y, float z): Entity(x, y, z) {
         
         if (i < 10) { number = "0" + number; }
 
-        this->walkingSprite->addImage(app->loadImage(("assets/player/p2_walk" + number + ".png")));
+        this->walkingIll->addIllustration(app->loadImage(("assets/player/p2_walk" + number + ".png")));
     }
 
-    this->standingSprite->addImage(app->loadImage("assets/p2_stand.png"));
+    this->standingIll->addIllustration(app->loadImage("assets/p2_stand.png"));
 
-    this->sprite = this->standingSprite;
+    this->illustrationStack = this->standingIll;
 
     this->centeredOrigo = false;
     this->interactive = true;
     this->onGround = false;
-    this->sprite->animationDelay = 0.30f;
+    this->illustrationStack->animationDelay = 0.30f;
 }
 
 void Player::tick(float delta) {
     this->onGround = false;
-    this->syncCollisionBoxWithSprite(delta);
+    this->syncCollisionBoxWithIllustrationStack(delta);
     this->updatePhysics(delta);
     
     Scene& scene = *app->getCurrentScene();
@@ -111,13 +111,13 @@ void Player::tick(float delta) {
     scene.camera->position->y = camY;
 
     if (dx > 0 || dx < 0) {
-        this->sprite = this->walkingSprite;
+        this->illustrationStack = this->walkingIll;
     } else {
-        this->sprite = this->standingSprite;
+        this->illustrationStack = this->standingIll;
     }
 }
 
 void Player::draw(float delta) {
-    this->sprite->draw(delta);
+    this->illustrationStack->draw(delta);
     //this->collisionBox->draw(delta);
 }

@@ -3,7 +3,6 @@
 
 #include <ninage/Ninage.h>
 #include <ninage/Scene.h>
-#include <ninage/SpriteImage.h>
 
 
 extern Ninage *app;
@@ -21,8 +20,6 @@ class MainScene: public Scene {
             int &deltaMouseX,
             int &deltaMouseY
         );
-
-        SpriteImage* texture0;
 };
 
 #endif

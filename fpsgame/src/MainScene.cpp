@@ -10,7 +10,6 @@ bool onGround = false;
 float py = 0.0f;
 
 MainScene::MainScene(): Scene() {
-    this->texture0 = app->loadImage("assets/unnamed.png");
 }
 
 void MainScene::init(float delta) {

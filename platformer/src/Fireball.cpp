@@ -4,17 +4,18 @@
 
 
 Fireball::Fireball(float x, float y, float z): Entity(x, y, z) {
-    this->sprite->addImage(app->loadImage("assets/fireball.png"));
+    this->illustrationStack->addIllustration(app->loadImage("assets/fireball.png"));
 
     this->centeredOrigo = false;
     this->interactive = true;
     this->onGround = false;
-    this->sprite->animationDelay = 0.30f;
+    this->illustrationStack->animationDelay = 0.30f;
 }
 
 void Fireball::tick(float delta) {
     this->onGround = false;
-    
+   
+    this->syncCollisionBoxWithIllustrationStack(delta); 
     this->updatePhysics(delta);
     
     Scene& scene = *app->getCurrentScene();
@@ -44,6 +45,6 @@ void Fireball::tick(float delta) {
 }
 
 void Fireball::draw(float delta) {
-    this->sprite->draw(delta);
+    this->illustrationStack->draw(delta);
     //this->collisionBox->draw(delta);
 }

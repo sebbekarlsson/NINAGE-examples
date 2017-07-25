@@ -10,8 +10,8 @@ class Player: public Entity {
     public:
         Player(float x, float y, float z);
 
-        Sprite * standingSprite;
-        Sprite * walkingSprite;
+        IllustrationStack * standingIll;
+        IllustrationStack * walkingIll;
 
         bool onGround;
 

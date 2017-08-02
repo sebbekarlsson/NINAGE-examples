@@ -97,7 +97,6 @@ void MainScene::tick(float delta) {
         //(*it2)->scene(delta, (*it));
 
         if (camera->intersectsWith(delta, (Entity*)(*it2))) {
-            onGround = true;
 
             if (camera->position->y - camera->collisionBox->height < (*it2)->position->y) {
                 distance_to_x0 = std::max((camprevx + camera->collisionBox->width), (*it2)->position->x) - std::min((camprevx + camera->collisionBox->width), (*it2)->position->x);
@@ -124,10 +123,10 @@ void MainScene::tick(float delta) {
         camera->position->z = camprevz;
     }
 
-    if (distance_to_y1 <= 0.0f) {
+    if (distance_to_y1 <= 0.0f)
         onGround = false;
-        camera->position->y = camprevy;
-    }
+    else
+        onGround = true;
 
     if (!onGround) {
         camera->dy -= 0.0007f;

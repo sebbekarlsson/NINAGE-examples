@@ -4,6 +4,7 @@
 
 
 bool onGround = false;
+bool doCollisionChecking = false;
 
 float camprevx = 0.0f;
 float camprevy = 0.0f;
@@ -17,8 +18,7 @@ float distance_to_z1 = 0;
 
 float distance_to_y1 = 0;
 
-MainScene::MainScene(): Scene() {
-}
+MainScene::MainScene(): Scene() {}
 
 void MainScene::init(float delta) {
     SDL_ShowCursor(SDL_DISABLE);
@@ -70,6 +70,8 @@ void MainScene::tick(float delta) {
     distance_to_z0 = 0.0f;
     distance_to_z1 = 0.0f;
 
+    doCollisionChecking = false;
+
     if (app->keyboardDown(SDL_SCANCODE_W)) {
         this->camera->position->x += sin(EngineMath::toRadians(this->camera->yrotation)) * 0.08f;
         this->camera->position->z -= cos(EngineMath::toRadians(this->camera->yrotation)) * 0.08f;
@@ -105,6 +107,8 @@ void MainScene::tick(float delta) {
                 distance_to_z0 = std::max((camprevz + camera->collisionBox->depth), (*it2)->position->z) - std::min((camprevz + camera->collisionBox->depth), (*it2)->position->z);
                 distance_to_z1 = std::max((*it2)->position->z + (*it2)->collisionBox->depth, camprevz) - std::min((*it2)->position->z + (*it2)->collisionBox->depth, camprevz);
 
+                doCollisionChecking = true;
+
             }
 
             if (camprevy > (*it2)->position->y - (*it2)->collisionBox->height) {
@@ -116,34 +120,32 @@ void MainScene::tick(float delta) {
     }
 
     // find the lowest distance to find out which face has been touched
-    
-    if (distance_to_x0 < distance_to_x1) {
-        // we collided with x0
-        camera->position->x -=
-            std::max(camera->position->x, camprevx) -
-            std::min(camera->position->x, camprevx);
+    if (doCollisionChecking) {
+        if (distance_to_x0 < distance_to_x1) {
+            // we collided with x0
+            camera->position->x -=
+                std::max(camera->position->x, camprevx) -
+                std::min(camera->position->x, camprevx);
+        }
+        if (distance_to_x1 < distance_to_x0) {
+            // we collided with x1
+            camera->position->x +=
+                std::max(camera->position->x, camprevx) -
+                std::min(camera->position->x, camprevx);
+        }
+        if (distance_to_z0 < distance_to_z1) {
+            // we collided with z0
+            camera->position->z -=
+                std::max(camera->position->z, camprevz) -
+                std::min(camera->position->z, camprevz);
+        }
+        if (distance_to_z1 < distance_to_z0) {
+            // we collided with z1
+            camera->position->z +=
+                std::max(camera->position->z, camprevz) -
+                std::min(camera->position->z, camprevz);
+        }
     }
-    if (distance_to_x1 < distance_to_x0) {
-        // we collided with x1
-        camera->position->x +=
-            std::max(camera->position->x, camprevx) -
-            std::min(camera->position->x, camprevx);
-    }
-    if (distance_to_z0 < distance_to_z1) {
-        // we collided with z0
-        camera->position->z -=
-            std::max(camera->position->z, camprevz) -
-            std::min(camera->position->z, camprevz);
-    }
-    if (distance_to_z1 < distance_to_z0) {
-        // we collided with z1
-        camera->position->z +=
-            std::max(camera->position->z, camprevz) -
-            std::min(camera->position->z, camprevz);
-    }
-
-
-
 
     if (distance_to_y1 <= 0.0f)
         onGround = false;

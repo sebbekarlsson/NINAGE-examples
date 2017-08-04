@@ -115,13 +115,35 @@ void MainScene::tick(float delta) {
         ++it2;
     }
 
-    if (distance_to_x0 > 0.0f || distance_to_x1 > 0.0f) {
-        camera->position->x = camprevx;
+    // find the lowest distance to find out which face has been touched
+    
+    if (distance_to_x0 < distance_to_x1) {
+        // we collided with x0
+        camera->position->x -=
+            std::max(camera->position->x, camprevx) -
+            std::min(camera->position->x, camprevx);
+    }
+    if (distance_to_x1 < distance_to_x0) {
+        // we collided with x1
+        camera->position->x +=
+            std::max(camera->position->x, camprevx) -
+            std::min(camera->position->x, camprevx);
+    }
+    if (distance_to_z0 < distance_to_z1) {
+        // we collided with z0
+        camera->position->z -=
+            std::max(camera->position->z, camprevz) -
+            std::min(camera->position->z, camprevz);
+    }
+    if (distance_to_z1 < distance_to_z0) {
+        // we collided with z1
+        camera->position->z +=
+            std::max(camera->position->z, camprevz) -
+            std::min(camera->position->z, camprevz);
     }
 
-    if (distance_to_z0 > 0.0f || distance_to_z1 > 0.0f) {
-        camera->position->z = camprevz;
-    }
+
+
 
     if (distance_to_y1 <= 0.0f)
         onGround = false;

@@ -6,6 +6,9 @@
 bool onGround = false;
 bool doCollisionChecking = false;
 
+float accleration = 0.08f;
+float acceleration_up = 0.01f;
+
 float camprevx = 0.0f;
 float camprevy = 0.0f;
 float camprevz = 0.0f;
@@ -73,23 +76,23 @@ void MainScene::tick(float delta) {
     doCollisionChecking = false;
 
     if (app->keyboardDown(SDL_SCANCODE_W)) {
-        this->camera->position->x += sin(EngineMath::toRadians(this->camera->yrotation)) * 0.08f;
-        this->camera->position->z -= cos(EngineMath::toRadians(this->camera->yrotation)) * 0.08f;
+        this->camera->position->x += sin(EngineMath::toRadians(this->camera->yrotation)) * accleration;
+        this->camera->position->z -= cos(EngineMath::toRadians(this->camera->yrotation)) * accleration;
     }
 
     if (app->keyboardDown(SDL_SCANCODE_S)) {
-        this->camera->position->x += sin(EngineMath::toRadians(this->camera->yrotation - 180.0f)) * 0.08f;
-        this->camera->position->z -= cos(EngineMath::toRadians(this->camera->yrotation - 180.0f)) * 0.08f;
+        this->camera->position->x += sin(EngineMath::toRadians(this->camera->yrotation - 180.0f)) * accleration;
+        this->camera->position->z -= cos(EngineMath::toRadians(this->camera->yrotation - 180.0f)) * accleration;
     }
 
     if (app->keyboardDown(SDL_SCANCODE_A)) {
-        this->camera->position->x += sin(EngineMath::toRadians(this->camera->yrotation - 90.0f)) * 0.08f;
-        this->camera->position->z -= cos(EngineMath::toRadians(this->camera->yrotation - 90.0f)) * 0.08f;
+        this->camera->position->x += sin(EngineMath::toRadians(this->camera->yrotation - 90.0f)) * accleration;
+        this->camera->position->z -= cos(EngineMath::toRadians(this->camera->yrotation - 90.0f)) * accleration;
     }
 
     if (app->keyboardDown(SDL_SCANCODE_D)) {
-        this->camera->position->x += sin(EngineMath::toRadians(this->camera->yrotation + 90.0f)) * 0.08f;
-        this->camera->position->z -= cos(EngineMath::toRadians(this->camera->yrotation + 90.0f)) * 0.08f;
+        this->camera->position->x += sin(EngineMath::toRadians(this->camera->yrotation + 90.0f)) * accleration;
+        this->camera->position->z -= cos(EngineMath::toRadians(this->camera->yrotation + 90.0f)) * accleration;
     }
 
     for (std::vector<Instance*>::iterator it2 = instances->begin(); it2 != instances->end();) {
@@ -124,26 +127,26 @@ void MainScene::tick(float delta) {
         if (distance_to_x0 < distance_to_x1) {
             // we collided with x0
             camera->position->x -=
-                std::max(camera->position->x, camprevx) -
-                std::min(camera->position->x, camprevx);
+                std::max(camera->position->x, camprevx) - // distance to
+                std::min(camera->position->x, camprevx);  // previous position
         }
         if (distance_to_x1 < distance_to_x0) {
             // we collided with x1
             camera->position->x +=
-                std::max(camera->position->x, camprevx) -
-                std::min(camera->position->x, camprevx);
+                std::max(camera->position->x, camprevx) - // distance to
+                std::min(camera->position->x, camprevx);  // previous position
         }
         if (distance_to_z0 < distance_to_z1) {
             // we collided with z0
             camera->position->z -=
-                std::max(camera->position->z, camprevz) -
-                std::min(camera->position->z, camprevz);
+                std::max(camera->position->z, camprevz) - // distance to
+                std::min(camera->position->z, camprevz);  // previous position
         }
         if (distance_to_z1 < distance_to_z0) {
             // we collided with z1
             camera->position->z +=
-                std::max(camera->position->z, camprevz) -
-                std::min(camera->position->z, camprevz);
+                std::max(camera->position->z, camprevz) - // distance to
+                std::min(camera->position->z, camprevz);  // previous position
         }
     }
 
@@ -160,7 +163,7 @@ void MainScene::tick(float delta) {
     }
 
     if (app->keyboardDown(SDL_SCANCODE_SPACE) && onGround) {
-        camera->addForce(90.0f, 0.01f);
+        camera->addForce(90.0f, acceleration_up);
     }
 }
 

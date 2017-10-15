@@ -1,4 +1,5 @@
 #include <ninage/Ninage.h>
+#include <ninage/Viewmode.h>
 #include "MainScene.h"
 
 
@@ -13,6 +14,8 @@ void Ninage::main() {
 
 int main (int argc, char* args[]) {
     app = new Ninage();
+
+    app->setViewmode(Viewmode::D2);
     
     return app->run();    
 }

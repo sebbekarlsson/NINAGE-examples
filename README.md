@@ -1,5 +1,5 @@
-# Scenengine-examples
-> Example apps created with Scenengine
+# NINAGE-examples
+> Example apps created with NINAGE
 
 ## Compiling & running:
 

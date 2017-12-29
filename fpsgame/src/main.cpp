@@ -8,7 +8,6 @@ const Uint8 *state = SDL_GetKeyboardState(NULL);
 
 void Ninage::main() {
     MainScene* scene = new MainScene();
-
     this->addScene(scene);
 }
 

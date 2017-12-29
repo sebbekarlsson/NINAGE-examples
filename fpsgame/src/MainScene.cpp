@@ -1,6 +1,7 @@
 #include "MainScene.h"
 #include "Ground.h"
 #include <random>
+#include <ninage/utils/ModelLoader.h>
 
 
 bool onGround = false;
@@ -21,9 +22,12 @@ float distance_to_z1 = 0;
 
 float distance_to_y1 = 0;
 
+Model3D *m;
+
 MainScene::MainScene(): Scene() {}
 
 void MainScene::init(float delta) {
+    m = ModelLoader::load("assets/teapot.obj");
     SDL_ShowCursor(SDL_DISABLE);
     SDL_SetRelativeMouseMode(SDL_TRUE);
 
@@ -168,6 +172,7 @@ void MainScene::tick(float delta) {
 }
 
 void MainScene::draw(float delta) {
+    m->draw();
     this->drawDefault(delta);
 }
 

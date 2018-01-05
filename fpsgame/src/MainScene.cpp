@@ -22,12 +22,14 @@ float distance_to_z1 = 0;
 
 float distance_to_y1 = 0;
 
+float modelRot = 0.0f;
+
 Model3D *m;
 
 MainScene::MainScene(): Scene() {}
 
 void MainScene::init(float delta) {
-    m = ModelLoader::load("assets/bunny.obj");
+    m = ModelLoader::load("assets/elephant.obj");
     SDL_ShowCursor(SDL_DISABLE);
     SDL_SetRelativeMouseMode(SDL_TRUE);
 
@@ -63,6 +65,13 @@ void MainScene::init(float delta) {
 
 void MainScene::tick(float delta) {
     this->tickDefault(delta);
+
+    if (modelRot < 360) {
+        modelRot += 0.1f;
+    } else {
+        modelRot = 0.0f;
+    }
+
     onGround = false;
 
     camera->updatePhysics(delta);
@@ -174,8 +183,9 @@ void MainScene::tick(float delta) {
 void MainScene::draw(float delta) {
     this->drawDefault(delta);
 
-    glTranslatef(5.0f, -2.0f, 2.0f);
     glPushMatrix();
+    glTranslatef(5.0f, -2.0f, 2.0f);
+    glRotatef(modelRot, 0.0f, 1.0f, 0.0f);
     m->draw();
     glPopMatrix();
 }

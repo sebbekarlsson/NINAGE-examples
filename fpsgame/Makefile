@@ -7,7 +7,7 @@ G_FLAGZ=-std=c++11 -Wall -g
 ifeq ($(OS), Darwin)
     FLAGZ=$(G_FLAGZ) -lninage -framework OpenGL -framework GLUT -lresourcemanager -lSDL2_image -lSDL2_ttf -lSDL2
 else
-    FLAGZ=$(G_FLAGZ) -std=c++11 -lresourcemanager -lninage -lGL -lglut -lSDL2_image -lSDL2_ttf -lGLU -g -lSDL2
+    FLAGZ=$(G_FLAGZ) -std=c++11 -lninage -lresourcemanager -lGL -lglut -lSDL2_image -lSDL2_ttf -lGLU -g -lSDL2
 endif
 
 OFILES=\

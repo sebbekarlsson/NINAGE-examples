@@ -27,7 +27,7 @@ Model3D *m;
 MainScene::MainScene(): Scene() {}
 
 void MainScene::init(float delta) {
-    m = ModelLoader::load("assets/teapot.obj");
+    m = ModelLoader::load("assets/bunny.obj");
     SDL_ShowCursor(SDL_DISABLE);
     SDL_SetRelativeMouseMode(SDL_TRUE);
 
@@ -172,8 +172,12 @@ void MainScene::tick(float delta) {
 }
 
 void MainScene::draw(float delta) {
-    m->draw();
     this->drawDefault(delta);
+
+    glTranslatef(5.0f, -2.0f, 2.0f);
+    glPushMatrix();
+    m->draw();
+    glPopMatrix();
 }
 
 void MainScene::mouseMoveEvent(

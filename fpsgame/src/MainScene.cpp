@@ -24,12 +24,13 @@ float distance_to_y1 = 0;
 
 float modelRot = 0.0f;
 
+Illustration* modelIl = app->loadIllustration("assets/metrocop_sheet.tga");
 Model3D *m;
 
 MainScene::MainScene(): Scene() {}
 
 void MainScene::init(float delta) {
-    m = ModelLoader::load("assets/toyplane2.obj");
+    m = ModelLoader::load("assets/Police.obj");
     SDL_ShowCursor(SDL_DISABLE);
     SDL_SetRelativeMouseMode(SDL_TRUE);
 
@@ -186,6 +187,8 @@ void MainScene::draw(float delta) {
     glPushMatrix();
     glTranslatef(5.0f, -2.0f, 2.0f);
     glRotatef(modelRot, 0.0f, 1.0f, 0.0f);
+    glScalef(0.03f, 0.03f, 0.03f);
+    modelIl->bind();
     m->draw();
     glPopMatrix();
 }

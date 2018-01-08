@@ -29,7 +29,7 @@ Model3D *m;
 MainScene::MainScene(): Scene() {}
 
 void MainScene::init(float delta) {
-    m = ModelLoader::load("assets/elephant.obj");
+    m = ModelLoader::load("assets/toyplane2.obj");
     SDL_ShowCursor(SDL_DISABLE);
     SDL_SetRelativeMouseMode(SDL_TRUE);
 

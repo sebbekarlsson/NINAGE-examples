@@ -177,7 +177,7 @@ void MainScene::tick(float delta) {
     }
 
     if (app->keyboardDown(SDL_SCANCODE_SPACE) && onGround) {
-        camera->addForce(90.0f, acceleration_up);
+        camera->addForce(90.0f, acceleration_up, Viewmode::D2);
     }
 }
 

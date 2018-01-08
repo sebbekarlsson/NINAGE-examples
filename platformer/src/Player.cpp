@@ -64,18 +64,18 @@ void Player::tick(float delta) {
     }
     
     if (app->keyboardDown(SDL_SCANCODE_LEFT)) {
-        this->addForce(180.0f, 0.05f);
+        this->addForce(180.0f, 0.05f, Viewmode::D2);
     }
     if (app->keyboardDown(SDL_SCANCODE_RIGHT)) {
-        this->addForce(0.0f, 0.05f);
+        this->addForce(0.0f, 0.05f, Viewmode::D2);
     }
     if (app->keyboardDown(SDL_SCANCODE_UP) && this->onGround) {
-        this->addForce(270.0f, 2.0f);
+        this->addForce(270.0f, 2.0f, Viewmode::D2);
     }
     if (app->keyboardDown(SDL_SCANCODE_SPACE)) {
         Fireball* ball = new Fireball(this->getX(), this->getY(), 0);
 
-        ball->addForce(270.0f, 1.0f);
+        ball->addForce(270.0f, 1.0f, Viewmode::D2);
         app->getCurrentScene()->instantiate(ball);
 
         //this->addForce(270.0f, 2.0f);

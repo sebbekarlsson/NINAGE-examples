@@ -47,6 +47,6 @@ void Fireball::tick(float delta) {
 }
 
 void Fireball::draw(float delta) {
-    this->illustrationStack->draw(delta);
+    this->illustrationStack->draw(delta, GL_RGBA);
     //this->collisionBox->draw(delta);
 }

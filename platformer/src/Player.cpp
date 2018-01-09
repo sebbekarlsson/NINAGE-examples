@@ -122,6 +122,6 @@ void Player::tick(float delta) {
 }
 
 void Player::draw(float delta) {
-    this->illustrationStack->draw(delta);
+    this->illustrationStack->draw(delta, GL_RGBA);
     //this->collisionBox->draw(delta);
 }

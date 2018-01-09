@@ -188,7 +188,7 @@ void MainScene::draw(float delta) {
     glTranslatef(5.0f, -2.0f, 2.0f);
     glRotatef(modelRot, 0.0f, 1.0f, 0.0f);
     glScalef(0.03f, 0.03f, 0.03f);
-    modelIl->bind();
+    modelIl->bind(GL_RGBA);
     m->draw();
     glPopMatrix();
 }

@@ -18,7 +18,7 @@ void Ground::draw(float delta) {
     //this->sprite->draw(delta);
     //this->collisionBox->draw(delta);
 
-    this->illustrationStack->getCurrentIllustration()->bind();
+    this->illustrationStack->getCurrentIllustration()->bind(GL_RGBA);
 
 
     glPushMatrix();

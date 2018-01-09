@@ -14,6 +14,6 @@ void Block::tick(float delta) {
 }
 
 void Block::draw(float delta) {
-    this->illustrationStack->draw(delta);
+    this->illustrationStack->draw(delta, GL_RGBA);
     //this->collisionBox->draw(delta);
 }

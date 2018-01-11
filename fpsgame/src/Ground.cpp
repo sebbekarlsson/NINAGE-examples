@@ -4,7 +4,7 @@
 
 Ground::Ground(float x, float y, float z): Entity(x, y, z) {
     this->illustrationStack->addIllustration(
-        app->loadIllustration("assets/crate.png")
+        app->loadIllustration("assets/crate.png", GL_RGBA)
     );
 
     this->collisionBox->setSize(1.0f, 1.0f, 1.0f);
@@ -18,7 +18,7 @@ void Ground::draw(float delta) {
     //this->sprite->draw(delta);
     //this->collisionBox->draw(delta);
 
-    this->illustrationStack->getCurrentIllustration()->bind(GL_RGBA);
+    this->illustrationStack->getCurrentIllustration()->bind();
 
 
     glPushMatrix();

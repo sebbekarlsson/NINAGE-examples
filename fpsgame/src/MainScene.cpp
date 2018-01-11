@@ -24,7 +24,7 @@ float distance_to_y1 = 0;
 
 float modelRot = 0.0f;
 
-Illustration* modelIl = app->loadIllustration("assets/metrocop_sheet.tga");
+Illustration* modelIl = app->loadIllustration("assets/metrocop_sheet.tga", GL_RGBA);
 Model3D *m;
 
 MainScene::MainScene(): Scene() {}
@@ -188,7 +188,7 @@ void MainScene::draw(float delta) {
     glTranslatef(5.0f, -2.0f, 2.0f);
     glRotatef(modelRot, 0.0f, 1.0f, 0.0f);
     glScalef(0.03f, 0.03f, 0.03f);
-    modelIl->bind(GL_RGBA);
+    modelIl->bind();
     m->draw();
     glPopMatrix();
 }

@@ -17,12 +17,12 @@ Player::Player(float x, float y, float z): Entity(x, y, z) {
         if (i < 10) { number = "0" + number; }
 
         this->walkingIll->addIllustration(
-            app->loadIllustration(("assets/player/p2_walk" + number + ".png"))
+            app->loadIllustration("assets/player/p2_walk" + number + ".png", GL_RGBA)
         );
     }
 
     this->standingIll->addIllustration(
-        app->loadIllustration("assets/p2_stand.png")
+        app->loadIllustration("assets/p2_stand.png", GL_RGBA)
     );
 
     this->illustrationStack = this->standingIll;
@@ -122,6 +122,6 @@ void Player::tick(float delta) {
 }
 
 void Player::draw(float delta) {
-    this->illustrationStack->draw(delta, GL_RGBA);
+    this->illustrationStack->draw(delta);
     //this->collisionBox->draw(delta);
 }

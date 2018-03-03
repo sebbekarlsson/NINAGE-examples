@@ -1,7 +1,7 @@
 #include "MainScene.h"
 #include "Ground.h"
 #include <random>
-#include <ninage/utils/ModelLoader.h>
+#include <ninage/ModelLoader.h>
 
 
 bool onGround = false;

@@ -5,7 +5,7 @@
 
 Fireball::Fireball(float x, float y, float z): Entity(x, y, z) {
     this->illustrationStack->addIllustration(
-        app->loadIllustration("assets/fireball.png")
+        app->loadIllustration("assets/fireball.png", GL_RGBA)
     );
 
     this->centeredOrigo = false;
@@ -47,6 +47,6 @@ void Fireball::tick(float delta) {
 }
 
 void Fireball::draw(float delta) {
-    this->illustrationStack->draw(delta, GL_RGBA);
+    this->illustrationStack->draw(delta);
     //this->collisionBox->draw(delta);
 }

@@ -29,22 +29,22 @@ void Ground::draw(float delta) {
     glNormal3f(0.0f, 0.0f, 1.0f);
     glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f, 0.0f,  1.0f);	// Bottom Left
     glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, 0.0f,  1.0f);	// Bottom Right
-    glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f,  1.0f);	// Top Right
-    glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f,  1.0f,  1.0f);	// Top Left
+    glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  -1.0f,  1.0f);	// Top Right
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f,  -1.0f,  1.0f);	// Top Left
     // Back Face
     glNormal3f(0.0f, 0.0f, 0.0f);
     glTexCoord2f(1.0f, 0.0f); glVertex3f(0.0f, 0.0f, 0.0f);	// Bottom Right
-    glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f,  1.0f, 0.0f);	// Top Right
-    glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,  1.0f, 0.0f);	// Top Left
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f,  -1.0f, 0.0f);	// Top Right
+    glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,  -1.0f, 0.0f);	// Top Left
     glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, 0.0f, 0.0f);	// Bottom Left
     // Top Face
-    glNormal3f(0.0f, 1.0f, 0.0f);
-    glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f,  1.0f, 0.0f);	// Top Left
-    glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f,  1.0f,  1.0f);	// Bottom Left
-    glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f,  1.0f,  1.0f);	// Bottom Right
-    glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f, 0.0f);	// Top Right
+    glNormal3f(0.0f, -1.0f, 0.0f);
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f,  -1.0f, 0.0f);	// Top Left
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f,  -1.0f,  1.0f);	// Bottom Left
+    glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  1.0f);	// Bottom Right
+    glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  -1.0f, 0.0f);	// Top Right
     // Bottom Face
-    glNormal3f(0.0f, 0.0f, 0.0f);
+    glNormal3f(0.0f, 1.0f, 0.0f);
     glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f, 0.0f, 0.0f);	// Top Right
     glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f, 0.0f, 0.0f);	// Top Left
     glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, 0.0f,  1.0f);	// Bottom Left
@@ -52,15 +52,15 @@ void Ground::draw(float delta) {
     // Right face
     glNormal3f(1.0f, 0.0f, 0.0f);
     glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, 0.0f, 0.0f);	// Bottom Right
-    glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f, 0.0f);	// Top Right
-    glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,  1.0f,  1.0f);	// Top Left
+    glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  -1.0f, 0.0f);	// Top Right
+    glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,  -1.0f,  1.0f);	// Top Left
     glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, 0.0f,  1.0f);	// Bottom Left
     // Left Face
     glNormal3f(0.0f, 0.0f, 0.0f);
     glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 0.0f);	// Bottom Left
     glTexCoord2f(1.0f, 0.0f); glVertex3f(0.0f, 0.0f,  1.0f);	// Bottom Right
-    glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f,  1.0f,  1.0f);	// Top Right
-    glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f,  1.0f, 0.0f);	// Top Left
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0f,  -1.0f,  1.0f);	// Top Right
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f,  -1.0f, 0.0f);	// Top Left
     glEnd();
 
     glPopMatrix();

@@ -7,6 +7,8 @@ Ninage *app;
 const Uint8 *state = SDL_GetKeyboardState(NULL);
 
 void Ninage::main() {
+    this->TITLE = "FPS Game";
+
     MainScene* scene = new MainScene();
     this->addScene(scene);
 }

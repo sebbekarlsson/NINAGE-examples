@@ -2,10 +2,10 @@
 #include "Ground.h"
 #include <random>
 #include <ninage/ModelLoader.h>
+#include <glm/glm.hpp>
 
 
 bool onGround = false;
-bool doCollisionChecking = false;
 
 float accleration = 0.08f;
 float acceleration_up = 0.01f;
@@ -13,12 +13,6 @@ float acceleration_up = 0.01f;
 float camprevx = 0.0f;
 float camprevy = 0.0f;
 float camprevz = 0.0f;
-
-float distance_to_x0 = 0;
-float distance_to_x1 = 0;
-
-float distance_to_z0 = 0;
-float distance_to_z1 = 0;
 
 float distance_to_y1 = 0;
 
@@ -36,6 +30,8 @@ void MainScene::init(float delta) {
 
     camera->yfriction = 0.0001f;
     camera->position->y = 30.0f;
+    camera->position->x += 0.5f;
+    camera->position->z += 0.5f;
 
     for (int xx = 0; xx < 16; xx++) {
         for (int zz = 0; zz < 16; zz++) {
@@ -62,6 +58,12 @@ void MainScene::init(float delta) {
 
     Ground* ground4 = new Ground(6.0f, 0.0f, 4.0f);
     this->instantiate(ground4);
+
+    Ground* ground5 = new Ground(7.0f, -2.0f, 4.0f);
+    this->instantiate(ground5);
+
+    Ground* ground6 = new Ground(6.0f, 0.0f, 5.0f);
+    this->instantiate(ground6);
 }
 
 void MainScene::tick(float delta) {
@@ -76,18 +78,6 @@ void MainScene::tick(float delta) {
     onGround = false;
 
     camera->updatePhysics(delta);
-
-    camprevx = camera->position->x;
-    camprevz = camera->position->z;
-    camprevy = camera->position->y;
-
-    distance_to_x0 = 0.0f;
-    distance_to_x1 = 0.0f;
-    distance_to_y1 = 0.0f;
-    distance_to_z0 = 0.0f;
-    distance_to_z1 = 0.0f;
-
-    doCollisionChecking = false;
 
     if (app->keyboardDown(SDL_SCANCODE_W)) {
         this->camera->position->x += sin(EngineMath::toRadians(this->camera->yrotation)) * accleration;
@@ -109,85 +99,65 @@ void MainScene::tick(float delta) {
         this->camera->position->z -= cos(EngineMath::toRadians(this->camera->yrotation + 90.0f)) * accleration;
     }
 
+    std::cout << camera->getZ() << std::endl;
+
     for (std::vector<Instance*>::iterator it2 = instances->begin(); it2 != instances->end();) {
         if(dynamic_cast<Ground*>((*it2)) == NULL) { ++it2; continue; }
-        //if ((*it) == (*it2) || (*it)->interactive == false) { ++it2; continue; }
-
-        //(*it2)->scene(delta, (*it));
 
         if (camera->intersectsWith(delta, (Entity*)(*it2))) {
 
-            if (camera->position->y - camera->collisionBox->height < (*it2)->position->y) {
-                distance_to_x0 = std::max((camprevx + camera->collisionBox->width), (*it2)->position->x) - std::min((camprevx + camera->collisionBox->width), (*it2)->position->x);
-                distance_to_x1 = std::max((*it2)->position->x + (*it2)->collisionBox->width, camprevx) - std::min((*it2)->position->x + (*it2)->collisionBox->width, camprevx);
+            float cam_height = camera->collisionBox->height;
+            float cam_width = camera->collisionBox->width;
+            float box_size = (*it2)->collisionBox->width;
 
-                distance_to_z0 = std::max((camprevz + camera->collisionBox->depth), (*it2)->position->z) - std::min((camprevz + camera->collisionBox->depth), (*it2)->position->z);
-                distance_to_z1 = std::max((*it2)->position->z + (*it2)->collisionBox->depth, camprevz) - std::min((*it2)->position->z + (*it2)->collisionBox->depth, camprevz);
+            if (
+                camera->position->x + (cam_width / 2) - 0.1f >= (*it2)->position->x &&
+                camera->position->x - (cam_width / 2) + 0.1f <= (*it2)->position->x + box_size - 0.1f && 
 
-                doCollisionChecking = true;
-
+                camera->position->z + (cam_width / 2) - 0.1f >= (*it2)->position->z &&
+                camera->position->z - (cam_width / 2) + 0.1f <= (*it2)->position->z + box_size - 0.1f
+            ) {
+                camera->position->y = camprevy;
+                camera->dy = 0.0f;
+                
+                if (camera->position->y > (*it2)->position->y) {
+                    onGround = true;
+                }
             }
 
-            if (camprevy > (*it2)->position->y - (*it2)->collisionBox->height) {
-                distance_to_y1 = std::max((*it2)->position->y - (*it2)->collisionBox->height, camprevy) - std::min((*it2)->position->y - (*it2)->collisionBox->height, camprevy);
+            if (
+                camera->position->y - cam_height + 0.1f <= (*it2)->position->y &&
+                camera->position->y >= (*it2)->position->y - box_size + 0.1f
+            ) {
+                camera->position->x = camprevx;
+                camera->position->z = camprevz;
             }
         }
 
         ++it2;
     }
 
-    // find the lowest distance to find out which face has been touched
-    if (doCollisionChecking) {
-        if (distance_to_x0 < distance_to_x1) {
-            // we collided with x0
-            camera->position->x -=
-                std::max(camera->position->x, camprevx) - // distance to
-                std::min(camera->position->x, camprevx);  // previous position
-        }
-        if (distance_to_x1 < distance_to_x0) {
-            // we collided with x1
-            camera->position->x +=
-                std::max(camera->position->x, camprevx) - // distance to
-                std::min(camera->position->x, camprevx);  // previous position
-        }
-        if (distance_to_z0 < distance_to_z1) {
-            // we collided with z0
-            camera->position->z -=
-                std::max(camera->position->z, camprevz) - // distance to
-                std::min(camera->position->z, camprevz);  // previous position
-        }
-        if (distance_to_z1 < distance_to_z0) {
-            // we collided with z1
-            camera->position->z +=
-                std::max(camera->position->z, camprevz) - // distance to
-                std::min(camera->position->z, camprevz);  // previous position
-        }
-    }
-
-    if (distance_to_y1 <= 0.0f)
-        onGround = false;
-    else
-        onGround = true;
-
     if (!onGround) {
         camera->dy -= 0.0007f;
     } else {
-        camera->dy = 0.0f;
-        camera->position->y = camprevy;
+        if (app->keyboardDown(SDL_SCANCODE_SPACE) && onGround) {
+            std::cout << "jump" << std::endl;
+            camera->addForce(90.0f, acceleration_up, Viewmode::D2);
+        }
     }
 
-    if (app->keyboardDown(SDL_SCANCODE_SPACE) && onGround) {
-        camera->addForce(90.0f, acceleration_up, Viewmode::D2);
-    }
+    camprevx = camera->position->x;
+    camprevz = camera->position->z;
+    camprevy = camera->position->y;
 }
 
 void MainScene::draw(float delta) {
     this->drawDefault(delta);
 
     glPushMatrix();
-    glTranslatef(5.0f, -2.0f, 2.0f);
+    glTranslatef(5.0f, -3.0f, 2.0f);
     glRotatef(modelRot, 0.0f, 1.0f, 0.0f);
-    glScalef(0.03f, 0.03f, 0.03f);
+    glScalef(0.023f, 0.023f, 0.023f);
     modelIl->bind();
     m->draw();
     glPopMatrix();

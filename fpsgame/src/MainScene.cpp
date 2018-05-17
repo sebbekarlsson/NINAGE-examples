@@ -99,8 +99,6 @@ void MainScene::tick(float delta) {
         this->camera->position->z -= cos(EngineMath::toRadians(this->camera->yrotation + 90.0f)) * accleration;
     }
 
-    std::cout << camera->getZ() << std::endl;
-
     for (std::vector<Instance*>::iterator it2 = instances->begin(); it2 != instances->end();) {
         if(dynamic_cast<Ground*>((*it2)) == NULL) { ++it2; continue; }
 
@@ -141,7 +139,6 @@ void MainScene::tick(float delta) {
         camera->dy -= 0.0007f;
     } else {
         if (app->keyboardDown(SDL_SCANCODE_SPACE) && onGround) {
-            std::cout << "jump" << std::endl;
             camera->addForce(90.0f, acceleration_up, Viewmode::D2);
         }
     }

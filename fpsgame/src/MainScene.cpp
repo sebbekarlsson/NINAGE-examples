@@ -6,20 +6,33 @@
 
 
 bool onGround = false;
-
-float accleration = 0.08f;
+float acceleration = 0.08f;
 float acceleration_up = 0.01f;
-
 float camprevx = 0.0f;
 float camprevy = 0.0f;
 float camprevz = 0.0f;
-
-float distance_to_y1 = 0;
-
 float modelRot = 0.0f;
 
-Illustration* modelIl = app->loadIllustration("assets/metrocop_sheet.tga", GL_RGBA);
+Illustration* modelIl = app->loadIllustration(
+    "assets/metrocop_sheet.tga",
+    GL_RGBA
+);
+
 Model3D *m;
+
+/**
+ * Moves the camera in a direction with an acceleration
+ *
+ * @param Camera* camera - camera to move
+ * @param float direction - direction to move
+ * @param float acceleration - the acceleration
+ */
+void moveCamera(Camera* camera, float direction, float acceleration) {
+    float radians = EngineMath::toRadians(direction);
+
+    camera->position->x += sin(radians) * acceleration;
+    camera->position->z -= cos(radians) * acceleration;
+};
 
 MainScene::MainScene(): Scene() {}
 
@@ -33,6 +46,7 @@ void MainScene::init(float delta) {
     camera->position->x += 0.5f;
     camera->position->z += 0.5f;
 
+    // place out ground so that we have something to walk on
     for (int xx = 0; xx < 16; xx++) {
         for (int zz = 0; zz < 16; zz++) {
             Ground* ground = new Ground(xx, -3.0f, zz);
@@ -40,6 +54,7 @@ void MainScene::init(float delta) {
         }
     }
 
+    // placing out some random boxes
     Ground* ground = new Ground(4.0f, -2.0f, 4.0f);
     this->instantiate(ground);
 
@@ -48,7 +63,6 @@ void MainScene::init(float delta) {
 
     Ground* ground1 = new Ground(4.0f, 0.0f, 4.0f);
     this->instantiate(ground1);
-
 
     Ground* ground2 = new Ground(6.0f, -2.0f, 4.0f);
     this->instantiate(ground2);
@@ -69,41 +83,55 @@ void MainScene::init(float delta) {
 void MainScene::tick(float delta) {
     this->tickDefault(delta);
 
-    if (modelRot < 360) {
-        modelRot += 0.1f;
-    } else {
-        modelRot = 0.0f;
-    }
-
     onGround = false;
-
+    
     camera->updatePhysics(delta);
 
+    if (modelRot < 360)
+        modelRot += 0.1f;
+    else
+        modelRot = 0.0f;
+
+    // move forward
     if (app->keyboardDown(SDL_SCANCODE_W)) {
-        this->camera->position->x += sin(EngineMath::toRadians(this->camera->yrotation)) * accleration;
-        this->camera->position->z -= cos(EngineMath::toRadians(this->camera->yrotation)) * accleration;
+        moveCamera(
+            this->camera,
+            this->camera->yrotation,
+            acceleration
+        );
     }
 
+    // move backwards
     if (app->keyboardDown(SDL_SCANCODE_S)) {
-        this->camera->position->x += sin(EngineMath::toRadians(this->camera->yrotation - 180.0f)) * accleration;
-        this->camera->position->z -= cos(EngineMath::toRadians(this->camera->yrotation - 180.0f)) * accleration;
+        moveCamera(
+            this->camera,
+            this->camera->yrotation - 180.0f, acceleration
+        );
     }
 
+    // move left
     if (app->keyboardDown(SDL_SCANCODE_A)) {
-        this->camera->position->x += sin(EngineMath::toRadians(this->camera->yrotation - 90.0f)) * accleration;
-        this->camera->position->z -= cos(EngineMath::toRadians(this->camera->yrotation - 90.0f)) * accleration;
+        moveCamera(
+            this->camera,
+            this->camera->yrotation - 90.0f,
+            acceleration
+        );
     }
 
+    // move right
     if (app->keyboardDown(SDL_SCANCODE_D)) {
-        this->camera->position->x += sin(EngineMath::toRadians(this->camera->yrotation + 90.0f)) * accleration;
-        this->camera->position->z -= cos(EngineMath::toRadians(this->camera->yrotation + 90.0f)) * accleration;
+        moveCamera(
+            this->camera,
+            this->camera->yrotation + 90.0f,
+            acceleration
+        );
     }
 
+    // Collision detection
     for (std::vector<Instance*>::iterator it2 = instances->begin(); it2 != instances->end();) {
         if(dynamic_cast<Ground*>((*it2)) == NULL) { ++it2; continue; }
 
         if (camera->intersectsWith(delta, (Entity*)(*it2))) {
-
             float cam_height = camera->collisionBox->height;
             float cam_width = camera->collisionBox->width;
             float box_size = (*it2)->collisionBox->width;
@@ -118,9 +146,8 @@ void MainScene::tick(float delta) {
                 camera->position->y = camprevy;
                 camera->dy = 0.0f;
                 
-                if (camera->position->y > (*it2)->position->y) {
+                if (camera->position->y > (*it2)->position->y)
                     onGround = true;
-                }
             }
 
             if (
@@ -135,14 +162,12 @@ void MainScene::tick(float delta) {
         ++it2;
     }
 
-    if (!onGround) {
-        camera->dy -= 0.0007f;
-    } else {
-        if (app->keyboardDown(SDL_SCANCODE_SPACE) && onGround) {
-            camera->addForce(90.0f, acceleration_up, Viewmode::D2);
-        }
-    }
+    if (!onGround)
+        camera->dy -= 0.0007f; // gravity
+    else if (app->keyboardDown(SDL_SCANCODE_SPACE) && onGround)
+        camera->addForce(90.0f, acceleration_up, Viewmode::D2); // jump
 
+    // remember old camera position
     camprevx = camera->position->x;
     camprevz = camera->position->z;
     camprevy = camera->position->y;
@@ -155,17 +180,19 @@ void MainScene::draw(float delta) {
     glTranslatef(5.0f, -3.0f, 2.0f);
     glRotatef(modelRot, 0.0f, 1.0f, 0.0f);
     glScalef(0.023f, 0.023f, 0.023f);
+    
     modelIl->bind();
     m->draw();
+    
     glPopMatrix();
 }
 
 void MainScene::mouseMoveEvent(
-        int &mouseX,
-        int &mouseY,
-        int &deltaMouseX,
-        int &deltaMouseY
-        ) {
+    int &mouseX,
+    int &mouseY,
+    int &deltaMouseX,
+    int &deltaMouseY
+) {
     this->camera->xrotation += (deltaMouseY * 0.25f);
     this->camera->yrotation += (deltaMouseX * 0.25f);
 }

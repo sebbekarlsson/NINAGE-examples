@@ -135,47 +135,42 @@ void MainScene::tick(float delta) {
             float cam_height = camera->collisionBox->height;
             float cam_width = camera->collisionBox->width;
             float box_size = (*it2)->collisionBox->width;
-            float margin = 0.0f;
+            float margin0 = 0.0f;
+            float margin = 0.11f;
 
+            // calculation for sliding against walls collision
             if (
-                camera->position->x + (cam_width / 2) - margin >= (*it2)->position->x &&
-                camera->position->x - (cam_width / 2) + margin <= (*it2)->position->x + box_size - margin && 
-
-                camera->position->z + (cam_width / 2) - margin >= (*it2)->position->z &&
-                camera->position->z - (cam_width / 2) + margin <= (*it2)->position->z + box_size - margin
-            ) {
-                camera->position->y = camprevy;
-                camera->dy = 0.0f;
-                
-                if (camera->position->y > (*it2)->position->y)
-                    onGround = true;
-            }
-
-            if (
-                camera->position->y - cam_height + 0.1f <= (*it2)->position->y &&
-                camera->position->y >= (*it2)->position->y - box_size + 0.1f
+                camera->position->y - cam_height + margin0 <= (*it2)->position->y &&
+                camera->position->y >= (*it2)->position->y - box_size + margin0
             ) {
                 /*
                  * set the velocity component along that axis to zero.
                  * set the position component along that axis to the “just exactly touching” distance,
                  * which is easy to calculate from the dimensions of the AABBs.
                  */
+
                 glm::vec3* firstCollisionNorm;
                 
+                /* ==== calculating the size of the intersection */
                 float _x = std::max(camera->position->x, (*it2)->position->x);
                 float _z = std::max(camera->position->z, (*it2)->position->z);
+                float _y = std::max(camera->position->y, (*it2)->position->y);
 
                 float xx = std::min((camera->position->x - cam_width / 2) + cam_width, (*it2)->position->x + box_size);
                 float zz = std::min((camera->position->z - cam_width / 2) + cam_width, (*it2)->position->z + box_size);
+                float yy = std::min((camera->position->y - cam_width / 2) + cam_width, (*it2)->position->y + box_size);
                 
-                float ay = box_size;
-                float ax = xx - _x;
-                float az = zz - _z;
-
+                float ay = yy - _y; // height
+                float ax = xx - _x; // width
+                float az = zz - _z; // depth
+                /* ==== end of calculation of intersection ==== */
+                
+                // calculating the normal vector
                 float sx = ((*it2)->position->x + (box_size / 2)) < camera->position->x ? -1.0f : 1.0f;
                 float sy = ((*it2)->position->y - (box_size / 2)) < (camera->position->y - (cam_height / 2)) ? -1.0f : 1.0f;
                 float sz = ((*it2)->position->z + (box_size / 2)) < camera->position->z ? -1.0f : 1.0f;
 
+                // finding the face that has bin collided with
                 if (ax <= ay && ax <= az) {
                     firstCollisionNorm = new glm::vec3(sx * -1, 0.0f, 0.0f);
                 } else if (ay <= az) {
@@ -183,9 +178,26 @@ void MainScene::tick(float delta) {
                 } else {
                     firstCollisionNorm = new glm::vec3(0.0f, 0.0f, sz * -1);
                 }
-
+                
+                // update the position
                 camera->position->x += firstCollisionNorm->x * acceleration;
                 camera->position->z += firstCollisionNorm->z * acceleration;
+                // camera->position->y += firstCollisionNorm->y * acceleration;
+            }
+
+            // make sure that we can stand on top of things
+            if (
+                camera->position->x + (cam_width / 2) - margin > (*it2)->position->x &&
+                camera->position->x - (cam_width / 2) + margin < (*it2)->position->x + box_size - margin && 
+
+                camera->position->z + (cam_width / 2) - margin > (*it2)->position->z &&
+                camera->position->z - (cam_width / 2) + margin < (*it2)->position->z + box_size - margin
+            ) {
+                camera->position->y = camprevy;
+                camera->dy = 0.0f;
+                
+                if (camera->position->y > (*it2)->position->y)
+                    onGround = true;
             }
         }
 

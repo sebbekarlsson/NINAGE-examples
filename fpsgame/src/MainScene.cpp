@@ -131,17 +131,18 @@ void MainScene::tick(float delta) {
     for (std::vector<Instance*>::iterator it2 = instances->begin(); it2 != instances->end();) {
         if(dynamic_cast<Ground*>((*it2)) == NULL) { ++it2; continue; }
 
-        if (camera->intersectsWith(delta, (Entity*)(*it2))) {
+        if (camera->intersectsWith((Entity*)(*it2))) {
             float cam_height = camera->collisionBox->height;
             float cam_width = camera->collisionBox->width;
             float box_size = (*it2)->collisionBox->width;
+            float margin = 0.0f;
 
             if (
-                camera->position->x + (cam_width / 2) - 0.1f >= (*it2)->position->x &&
-                camera->position->x - (cam_width / 2) + 0.1f <= (*it2)->position->x + box_size - 0.1f && 
+                camera->position->x + (cam_width / 2) - margin >= (*it2)->position->x &&
+                camera->position->x - (cam_width / 2) + margin <= (*it2)->position->x + box_size - margin && 
 
-                camera->position->z + (cam_width / 2) - 0.1f >= (*it2)->position->z &&
-                camera->position->z - (cam_width / 2) + 0.1f <= (*it2)->position->z + box_size - 0.1f
+                camera->position->z + (cam_width / 2) - margin >= (*it2)->position->z &&
+                camera->position->z - (cam_width / 2) + margin <= (*it2)->position->z + box_size - margin
             ) {
                 camera->position->y = camprevy;
                 camera->dy = 0.0f;
@@ -154,8 +155,37 @@ void MainScene::tick(float delta) {
                 camera->position->y - cam_height + 0.1f <= (*it2)->position->y &&
                 camera->position->y >= (*it2)->position->y - box_size + 0.1f
             ) {
-                camera->position->x = camprevx;
-                camera->position->z = camprevz;
+                /*
+                 * set the velocity component along that axis to zero.
+                 * set the position component along that axis to the “just exactly touching” distance,
+                 * which is easy to calculate from the dimensions of the AABBs.
+                 */
+                glm::vec3* firstCollisionNorm;
+                
+                float _x = std::max(camera->position->x, (*it2)->position->x);
+                float _z = std::max(camera->position->z, (*it2)->position->z);
+
+                float xx = std::min((camera->position->x - cam_width / 2) + cam_width, (*it2)->position->x + box_size);
+                float zz = std::min((camera->position->z - cam_width / 2) + cam_width, (*it2)->position->z + box_size);
+                
+                float ay = box_size;
+                float ax = xx - _x;
+                float az = zz - _z;
+
+                float sx = ((*it2)->position->x + (box_size / 2)) < camera->position->x ? -1.0f : 1.0f;
+                float sy = ((*it2)->position->y - (box_size / 2)) < (camera->position->y - (cam_height / 2)) ? -1.0f : 1.0f;
+                float sz = ((*it2)->position->z + (box_size / 2)) < camera->position->z ? -1.0f : 1.0f;
+
+                if (ax <= ay && ax <= az) {
+                    firstCollisionNorm = new glm::vec3(sx * -1, 0.0f, 0.0f);
+                } else if (ay <= az) {
+                    firstCollisionNorm = new glm::vec3(0.0f, sy * -1, 0.0f);
+                } else {
+                    firstCollisionNorm = new glm::vec3(0.0f, 0.0f, sz * -1);
+                }
+
+                camera->position->x += firstCollisionNorm->x * acceleration;
+                camera->position->z += firstCollisionNorm->z * acceleration;
             }
         }
 

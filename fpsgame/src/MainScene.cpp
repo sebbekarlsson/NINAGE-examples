@@ -136,7 +136,7 @@ void MainScene::tick(float delta) {
             float cam_width = camera->collisionBox->width;
             float box_size = (*it2)->collisionBox->width;
             float margin0 = 0.0f;
-            float margin = 0.11f;
+            float margin = 0.1f;
 
             // calculation for sliding against walls collision
             if (

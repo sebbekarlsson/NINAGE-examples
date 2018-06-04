@@ -36,7 +36,7 @@ Player::Player(float x, float y, float z): Entity(x, y, z) {
 void Player::tick(float delta) {
     this->onGround = false;
     this->syncCollisionBoxWithIllustrationStack(delta);
-    this->updatePhysics(delta);
+    this->updatePhysics();
     
     Scene& scene = *app->getCurrentScene();
 
@@ -48,7 +48,7 @@ void Player::tick(float delta) {
 
         //(*it2)->scene(delta, (*it));
         
-        if (this->intersectsWith(delta, (Entity*)(*it2))) {
+        if (this->intersectsWith((Entity*)(*it2))) {
             this->onGround = true;
             py = (*it2)->getY() - this->collisionBox->height; 
         }
@@ -70,7 +70,7 @@ void Player::tick(float delta) {
         this->addForce(0.0f, 0.05f, Viewmode::D2);
     }
     if (app->keyboardDown(SDL_SCANCODE_UP) && this->onGround) {
-        this->addForce(270.0f, 2.0f, Viewmode::D2);
+        this->addForce(270.0f, 4.0f, Viewmode::D2);
     }
     if (app->keyboardDown(SDL_SCANCODE_SPACE)) {
         Fireball* ball = new Fireball(this->getX(), this->getY(), 0);

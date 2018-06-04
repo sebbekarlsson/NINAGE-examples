@@ -18,7 +18,7 @@ void Fireball::tick(float delta) {
     this->onGround = false;
    
     this->syncCollisionBoxWithIllustrationStack(delta); 
-    this->updatePhysics(delta);
+    this->updatePhysics();
     
     Scene& scene = *app->getCurrentScene();
 
@@ -30,7 +30,7 @@ void Fireball::tick(float delta) {
 
         //(*it2)->scene(delta, (*it));
         
-        if (/*this->y+this->collisionBox->height >= (*it2)->y &&*/ this->intersectsWith(delta, (Entity*)(*it2))) {
+        if (/*this->y+this->collisionBox->height >= (*it2)->y &&*/ this->intersectsWith((Entity*)(*it2))) {
             this->onGround = true;
             py = (*it2)->getY() - this->collisionBox->height; 
         }

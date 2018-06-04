@@ -7,7 +7,7 @@
 
 bool onGround = false;
 float acceleration = 0.08f;
-float acceleration_up = 0.01f;
+float acceleration_up = 0.25f;
 float camprevx = 0.0f;
 float camprevy = 0.0f;
 float camprevz = 0.0f;
@@ -85,8 +85,6 @@ void MainScene::tick(float delta) {
 
     onGround = false;
     
-    camera->updatePhysics(delta);
-
     if (modelRot < 360)
         modelRot += 0.1f;
     else
@@ -205,7 +203,7 @@ void MainScene::tick(float delta) {
     }
 
     if (!onGround)
-        camera->dy -= 0.0007f; // gravity
+        camera->dy -= 0.014f; // gravity
     else if (app->keyboardDown(SDL_SCANCODE_SPACE) && onGround)
         camera->addForce(90.0f, acceleration_up, Viewmode::D2); // jump
 
